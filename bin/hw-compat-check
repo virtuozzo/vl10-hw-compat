@@ -1,0 +1,23 @@
+#!/bin/sh
+# hw-compat-check launcher — execs the hwcompat package using the system python3.
+set -e
+
+target=$0
+while [ -L "$target" ]; do
+    link=$(readlink "$target")
+    case "$link" in
+        /*) target=$link ;;
+        *)  target=$(dirname "$target")/$link ;;
+    esac
+done
+
+bin_dir=$(cd "$(dirname "$target")" && pwd)
+install_root=$(dirname "$bin_dir")
+
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "hw-compat-check: python3 not found on PATH" >&2
+    exit 2
+fi
+
+export PYTHONPATH=${install_root}${PYTHONPATH:+:$PYTHONPATH}
+exec python3 -m hwcompat "$@"

@@ -1,0 +1,7 @@
+[
+    "nft_compat",
+    "ip_tables",
+    "ip6_tables",
+    "arp_tables",
+    "ebtables"
+]
