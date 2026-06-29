@@ -3727,24 +3727,6 @@
       ],
       "deprecation_announced": "",
       "device_id": "",
-      "device_name": "QLogic NetXtreme II BCM5706/5708/5709/57710/57711/57712/57800/57810/57840 iSCSI Driver",
-      "device_type": "pci",
-      "driver_name": "bnx2i",
-      "maintained_in_rhel": [
-        7,
-        8,
-        9
-      ]
-    },
-    {
-      "available_in_rhel": [
-        7,
-        8,
-        9,
-        10
-      ],
-      "deprecation_announced": "",
-      "device_id": "",
       "device_name": "QLogic BCM57710/57711/57711E/57712/57712_MF/57800/57800_MF/57810/57810_MF/57840/57840_MF Driver",
       "device_type": "pci",
       "driver_name": "bnx2x",
@@ -3764,24 +3746,6 @@
       "device_type": "pci",
       "driver_name": "carl9170",
       "maintained_in_rhel": []
-    },
-    {
-      "available_in_rhel": [
-        7,
-        8,
-        9,
-        10
-      ],
-      "deprecation_announced": "",
-      "device_id": "",
-      "device_name": "QLogic cnic Driver",
-      "device_type": "pci",
-      "driver_name": "cnic",
-      "maintained_in_rhel": [
-        7,
-        8,
-        9
-      ]
     },
     {
       "available_in_rhel": [
@@ -6518,14 +6482,42 @@
         9
       ],
       "deprecation_announced": "",
-      "device_id": "",
-      "device_name": "QLogic ISP4XXX and ISP82XX iSCSI Host Adapter",
+      "device_id": "0x1077:0x4010",
+      "device_name": "QLogic Corp.: ISP4010-based iSCSI Host Bus Adapter",
       "device_type": "pci",
       "driver_name": "qla4xxx",
       "maintained_in_rhel": [
+        7
+      ]
+    },
+    {
+      "available_in_rhel": [
         7,
         8,
         9
+      ],
+      "deprecation_announced": "",
+      "device_id": "0x1077:0x4022",
+      "device_name": "QLogic Corp.: ISP4022-based iSCSI Host Bus Adapter",
+      "device_type": "pci",
+      "driver_name": "qla4xxx",
+      "maintained_in_rhel": [
+        7
+      ]
+    },
+    {
+      "available_in_rhel": [
+        7,
+        8,
+        9
+      ],
+      "deprecation_announced": "",
+      "device_id": "0x1077:0x4032",
+      "device_name": "QLogic Corp.: ISP4032-based iSCSI Host Bus Adapter",
+      "device_type": "pci",
+      "driver_name": "qla4xxx",
+      "maintained_in_rhel": [
+        7
       ]
     },
     {
