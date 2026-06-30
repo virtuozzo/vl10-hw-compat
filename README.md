@@ -24,6 +24,33 @@ Requirements:
 - Python 3.6 or newer (V/IS 7.x ships 3.9; nothing to install)
 - `lspci`, `modprobe` (present by default on V/IS / VZLinux / RHEL)
 
+### Using the tool without using installation script
+
+If you'd rather not pipe a script into `sh`, you can fetch the source yourself and run it in place.
+
+**From a release tarball:**
+
+```sh
+curl -fsSLO https://github.com/virtuozzo/vl10-hw-compat/releases/latest/download/hw-compat-check.tar.gz
+tar -xzf hw-compat-check.tar.gz
+cd hw-compat-check-*
+./bin/hw-compat-check
+```
+
+**From a git checkout:**
+
+```sh
+git clone https://github.com/virtuozzo/vl10-hw-compat.git
+cd vl10-hw-compat
+./bin/hw-compat-check
+```
+
+The `bin/hw-compat-check` wrapper resolves its own location and adds the unpacked tree to `PYTHONPATH`, so it works from any directory. To run via the Python interpreter directly:
+
+```sh
+PYTHONPATH=. python3 -m hwcompat
+```
+
 ## Run
 
 ```sh
