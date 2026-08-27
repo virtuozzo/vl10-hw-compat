@@ -4,6 +4,7 @@
     "ip6_tables",
     "arp_tables",
     "ebtables",
+    "pci:*bc06sc04*",
     "acpi:*AMD0030*",
     "acpi:*AMDI0030*",
     "acpi:*AMDI0031*"
