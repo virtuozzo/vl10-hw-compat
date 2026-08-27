@@ -3,5 +3,8 @@
     "ip_tables",
     "ip6_tables",
     "arp_tables",
-    "ebtables"
+    "ebtables",
+    "acpi:*AMD0030*",
+    "acpi:*AMDI0030*",
+    "acpi:*AMDI0031*"
 ]
