@@ -5070,7 +5070,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x1003",
@@ -5086,7 +5087,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x1004",
@@ -5102,7 +5104,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x1005",
@@ -5118,7 +5121,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x1006",
@@ -5134,7 +5138,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x1007",
@@ -5150,7 +5155,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x1008",
@@ -5166,7 +5172,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x1009",
@@ -5182,7 +5189,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x100a",
@@ -5198,7 +5206,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x100b",
@@ -5214,7 +5223,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x100c",
@@ -5230,7 +5240,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x100d",
@@ -5246,7 +5257,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x100e",
@@ -5262,7 +5274,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x100f",
@@ -5278,7 +5291,8 @@
       "available_in_rhel": [
         7,
         8,
-        9
+        9,
+        10
       ],
       "deprecation_announced": "",
       "device_id": "0x15B3:0x1010",
