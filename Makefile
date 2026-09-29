@@ -14,6 +14,8 @@ $(TARBALL):
 	mkdir -p $(STAGE)/bin $(STAGE)/hwcompat
 	cp -R bin/hw-compat-check $(STAGE)/bin/
 	cp -R hwcompat/* $(STAGE)/hwcompat/
+	sed -i.bak "s/^__version__ = .*/__version__ = '$(VERSION)'/" $(STAGE)/hwcompat/__init__.py
+	rm -f $(STAGE)/hwcompat/__init__.py.bak
 	test -f README.md && cp README.md $(STAGE)/ || true
 	test -f LICENSE   && cp LICENSE   $(STAGE)/ || true
 	find $(STAGE) -name __pycache__ -type d -exec rm -rf {} +

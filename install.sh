@@ -5,11 +5,11 @@
 #   curl -fsSL https://github.com/virtuozzo/vl10-hw-compat/releases/latest/download/install.sh | sh
 #
 # Or, to install a specific version:
-#   curl -fsSL .../install.sh | HW_COMPAT_CHECK_VERSION=0.1.0 sh
+#   curl -fsSL .../install.sh | HW_COMPAT_CHECK_VERSION=1.0.2 sh
 #
 # Environment overrides:
-#   HW_COMPAT_CHECK_VERSION    Version tag to install. Default: latest.
-#   HW_COMPAT_CHECK_REPO       GitHub org/repo. Default: virtuozzo/hw-compat-check.
+#   HW_COMPAT_CHECK_VERSION    Version to install (1.0.2 or v1.0.2). Default: latest.
+#   HW_COMPAT_CHECK_REPO       GitHub org/repo. Default: virtuozzo/vl10-hw-compat.
 #   HW_COMPAT_CHECK_ROOT       Install root. Default: /usr/local if writable, else $HOME/.local.
 
 set -e
@@ -74,7 +74,9 @@ mkdir -p "$BIN" "$SHARE"
 if [ "$VERSION" = "latest" ]; then
     URL_TARBALL="https://github.com/${REPO}/releases/latest/download/hw-compat-check.tar.gz"
 else
-    URL_TARBALL="https://github.com/${REPO}/releases/download/${VERSION}/hw-compat-check-${VERSION}.tar.gz"
+    # Tags are vX.Y.Z; tarballs are named without the "v".
+    VERSION=${VERSION#v}
+    URL_TARBALL="https://github.com/${REPO}/releases/download/v${VERSION}/hw-compat-check-${VERSION}.tar.gz"
 fi
 
 info "Downloading hw-compat-check (${VERSION}) from ${REPO}"
