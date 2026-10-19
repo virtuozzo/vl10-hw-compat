@@ -5,6 +5,7 @@
     "arp_tables",
     "ebtables",
     "ip_set",
+    "nvmet_fc",
     "pci:*bc06sc04*",
     "acpi:*AMD0030*",
     "acpi:*AMDI0030*",
