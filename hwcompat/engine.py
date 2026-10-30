@@ -2,6 +2,7 @@ import fnmatch
 import itertools
 import json
 import os
+import platform
 import re
 from enum import Enum
 from pathlib import Path
@@ -12,6 +13,17 @@ DATA_DIR = Path(__file__).parent / 'data'
 COMPAT_DB_PATH = DATA_DIR / 'device_driver_deprecation_data.json'
 EXCEPTIONS_DB_PATH = DATA_DIR / 'device_driver_exceptions.json'
 KMOD_INDEX_DIR = DATA_DIR / 'kmod-idx'
+CPUINFO_PATH = '/proc/cpuinfo'
+
+# Same flag sets as leapp's checkmicroarchitecture actor.
+X86_64_BASELINE_FLAGS = ['cmov', 'cx8', 'fpu', 'fxsr', 'mmx', 'syscall', 'sse', 'sse2']
+X86_64_V2_FLAGS = ['cx16', 'lahf_lm', 'popcnt', 'pni', 'sse4_1', 'sse4_2', 'ssse3']
+X86_64_V3_FLAGS = ['avx2', 'bmi1', 'bmi2', 'f16c', 'fma', 'abm', 'movbe', 'xsave']
+
+_MICROARCH_REQS = {
+    9: ('x86-64-v2', X86_64_BASELINE_FLAGS + X86_64_V2_FLAGS),
+    10: ('x86-64-v3', X86_64_BASELINE_FLAGS + X86_64_V2_FLAGS + X86_64_V3_FLAGS),
+}
 
 
 class Severity(Enum):
@@ -33,10 +45,11 @@ _STATUS_TO_SEVERITY = {
 
 class Finding:
     __slots__ = ('severity', 'name', 'driver', 'slot', 'modalias',
-                 'sysfs_path', 'kind', 'raw_entry')
+                 'sysfs_path', 'kind', 'raw_entry', 'reason')
 
     def __init__(self, severity, name, driver=None, slot=None,
-                 modalias=None, sysfs_path=None, kind='device', raw_entry=None):
+                 modalias=None, sysfs_path=None, kind='device', raw_entry=None,
+                 reason=None):
         self.severity = severity
         self.name = name
         self.driver = driver
@@ -45,6 +58,7 @@ class Finding:
         self.sysfs_path = sysfs_path
         self.kind = kind
         self.raw_entry = raw_entry
+        self.reason = reason
 
     def to_dict(self):
         return {
@@ -55,6 +69,7 @@ class Finding:
             'modalias': self.modalias,
             'sysfs_path': self.sysfs_path,
             'kind': self.kind,
+            'reason': self.reason,
         }
 
 
@@ -363,6 +378,45 @@ def _module_to_finding(mod_name, ent, status):
     )
 
 
+def _read_cpuinfo():
+    model_name, flags = None, None
+    with open(CPUINFO_PATH) as f:
+        for line in f:
+            key, sep, val = line.partition(':')
+            if not sep:
+                continue
+            key = key.strip()
+            if key == 'model name' and model_name is None:
+                model_name = val.strip()
+            elif key == 'flags' and flags is None:
+                flags = val.split()
+            if model_name is not None and flags is not None:
+                break
+    return model_name, flags
+
+
+def _check_microarch(rhel_major):
+    if platform.machine() != 'x86_64' or rhel_major not in _MICROARCH_REQS:
+        return None
+
+    model_name, flags = _read_cpuinfo()
+    if flags is None:
+        return None
+
+    microarch, required_flags = _MICROARCH_REQS[rhel_major]
+    missing = [flag for flag in required_flags if flag not in flags]
+    if not missing:
+        return None
+
+    return Finding(
+        severity=Severity.incompatible,
+        name=model_name or 'CPU',
+        kind='cpu',
+        reason='CPU does not support {} instruction set required by RHEL {}; '
+               'missing flags: {}'.format(microarch, rhel_major, ', '.join(missing)),
+    )
+
+
 def _load_compat_db():
     with open(COMPAT_DB_PATH) as f:
         return json.load(f)['data']
@@ -438,6 +492,10 @@ def scan(target_release='8.0', skip_kmod=False, progress=None):
     builtin_modules = _get_all_modules() - loaded_modules
 
     findings = []
+    cpu_finding = _check_microarch(rhel_major)
+    if cpu_finding is not None:
+        findings.append(cpu_finding)
+
     for dev, mod, ent in dev_entries:
         if ent is None:
             if dev.current_module is None:

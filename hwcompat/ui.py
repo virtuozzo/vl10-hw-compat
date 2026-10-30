@@ -239,6 +239,8 @@ def _format_finding(f, style, verbose):
     extras = []
     if f.slot:
         extras.append('slot ' + f.slot)
+    if f.reason:
+        extras.append(f.reason)
     if verbose:
         if f.modalias:
             extras.append('modalias ' + f.modalias)

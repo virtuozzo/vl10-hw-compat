@@ -9,6 +9,8 @@ This tool scans a node against the V/IS 8.0 hardware support matrix and reports 
 - **Incompatible** — the driver was removed in RHEL 10. The upgrade will not proceed on this node until the device is replaced or removed.
 - **Deprecated** — the driver still ships but is no longer actively maintained by Red Hat. The upgrade can proceed; long-term reliability is at your discretion.
 
+The tool also checks the CPU. RHEL 10 requires a CPU compatible with the x86-64-v3 instruction set (Intel Haswell / AMD Excavator or newer). A CPU that lacks any of the required features is reported as incompatible, along with the missing CPU flags.
+
 Run it on every node early — replacement procurement is running 8–16 weeks in the current market.
 
 ## Install
@@ -70,9 +72,11 @@ That's it. No flags. The scan typically takes a few seconds on a 100–300 devic
 ### Sample output — findings
 
 ```
-✗ Found 2 incompatible devices. The upgrade will not proceed until they are replaced.
+✗ Found 3 incompatible devices. The upgrade will not proceed until they are replaced.
 
   Incompatible — must be replaced before upgrade
+    • Intel(R) Xeon(R) CPU E5-2620 0 @ 2.00GHz
+      CPU does not support x86-64-v3 instruction set required by RHEL 10; missing flags: avx2, bmi1, bmi2, f16c, fma, abm, movbe
     • Mellanox Technologies MT27500 Family [ConnectX-3] — driver mlx4_core
       slot 0000:03:00.0
     • Broadcom NetXtreme II BCM5709 Gigabit Ethernet — driver bnx2
@@ -82,7 +86,7 @@ That's it. No flags. The scan typically takes a few seconds on a 100–300 devic
     • Adaptec AAC RAID controller — driver aacraid
       slot 0000:01:00.0
 
-  Scanned 142 devices in 3.4s. 2 incompatible, 1 deprecated.
+  Scanned 142 devices in 3.4s. 3 incompatible, 1 deprecated.
   Target: V/IS 8.0 (VZLinux 10)
 ```
 
@@ -117,8 +121,18 @@ Schema:
   "target_rhel_major": 10,
   "devices_scanned": 142,
   "elapsed_seconds": 3.41,
-  "summary": { "incompatible": 2, "deprecated": 1 },
+  "summary": { "incompatible": 3, "deprecated": 1 },
   "findings": [
+    {
+      "severity": "incompatible",
+      "name": "Intel(R) Xeon(R) CPU E5-2620 0 @ 2.00GHz",
+      "driver": null,
+      "slot": null,
+      "modalias": null,
+      "sysfs_path": null,
+      "kind": "cpu",
+      "reason": "CPU does not support x86-64-v3 instruction set required by RHEL 10; missing flags: avx2, bmi1, bmi2, f16c, fma, abm, movbe"
+    },
     {
       "severity": "incompatible",
       "name": "Mellanox Technologies MT27500 Family [ConnectX-3]",
@@ -126,7 +140,8 @@ Schema:
       "slot": "0000:03:00.0",
       "modalias": "pci:v000015B3d00001003...",
       "sysfs_path": "/sys/bus/pci/devices/0000:03:00.0",
-      "kind": "device"
+      "kind": "device",
+      "reason": null
     }
   ]
 }
